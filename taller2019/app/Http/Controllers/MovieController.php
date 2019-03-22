@@ -87,4 +87,56 @@ class MovieController extends Controller
         $movie->update();
         return redirect()->route('home')->with(array('message' => 'La imagen se ha actualizado correctamente'));
     }
+    public function search($search = null, $filter = null){
+
+        if(is_null($search)){
+            $search = \Request::get('search');
+
+            if(is_null($search)){
+                return redirect()->route('home');
+            }
+
+            return redirect()->route('movieSearch', array('search' => $search));
+        }
+
+        if(is_null($filter) && \Request::get('filter') && !is_null($search)){
+            $filter = \Request::get('filter');
+
+            return redirect()->route('movieSearch', array('search' => $search, 'filter' => $filter ));
+        }
+
+        $column = 'id';
+        $order = 'desc';
+
+        if(!is_null($filter)){
+
+            if($filter == 'new'){
+                $column = 'id';
+                $order = 'desc';
+            }
+            
+            if($filter == 'old'){
+                $column = 'id';
+                $order = 'asc';
+            }
+            
+            if($filter == 'alfa'){
+                $column = 'title';
+                $order = 'asc';
+            }
+            
+        }
+
+
+        $movies = Movie::where('title', 'LIKE', '%'.$search.'%')
+                                ->orderBy($column, $order)
+                                ->paginate(5);
+
+
+        return view('movie.search', array(
+            'movies' => $movies,
+            'search' => $search
+        ));
+    }
+
 }

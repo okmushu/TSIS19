@@ -58,3 +58,35 @@ Route::post('/update-movie/{movie_id}',array(
     'middleware' => 'auth',
     'uses' => 'MovieController@update'
 ));
+Route::get('/editar-user/{user_id}', array(
+    'as' => 'userEdit',
+    'middleware' => 'auth',
+    'uses' => 'UserController@edit'
+));
+Route::post('/update-user/{user_id}',array(
+    'as' => 'updateUser',
+    'middleware' => 'auth',
+    'uses' => 'UserController@update'
+));
+Route::get('/canal/{user_id}', array(
+    'as' => 'channel',
+    'uses' => 'UserController@channel'
+));
+Route::get('/list', array(
+    'as' => 'list',
+    'uses' => 'UserController@list'
+));
+// Cache
+Route::get('/clear-cache', function(){
+    $code = Artisan::call('cache:clear');
+});
+Route::get('delete-user/{user_id}', array(
+    'as' => 'userDelete',
+    'middleware' => 'auth',
+    'uses' => 'UserController@delete'
+));
+
+Route::get('/buscar/{search?}/{filter?}', [
+    'as' => 'movieSearch',
+    'uses' => 'MovieController@search'
+]);

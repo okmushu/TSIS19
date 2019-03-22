@@ -33,10 +33,23 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li><a href="{{ url('/') }}">Inicio</a></li>
                     </ul>
 
-                    <!-- Right Side Of Navbar -->
+                    <form class="navbar-form navbar-left" role="search" action="{{ url('/buscar') }}">
+                        <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="¿Que quieres ver?" name="search" />
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <button type="submit" class="btn btn-default">Buscar
+                            </button>
+                        </li>
+                    </ul>
+                    </form>
+                    <!-- Righ  t Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
@@ -60,6 +73,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url('/editar-user/'.\Auth::User()->id) }}">
+                                        {{ __('Editar') }}
+                                    </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
